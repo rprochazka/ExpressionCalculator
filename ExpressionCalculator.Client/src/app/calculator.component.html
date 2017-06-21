@@ -1,0 +1,19 @@
+<h1>Expression calculator</h1>
+
+<section>
+  <label>
+    <span>Expression</span>
+    <input #expression type="text" placeholder="Enter expression">
+    <button (click)="calculate(expression.value)">Calculate</button>
+  </label>
+</section>
+
+<section>
+  Result:
+    <span *ngIf="successResult">{{successResult.result}}</span>
+    <span *ngIf="errorMessage">{{errorMessage}}</span>
+</section>
+
+<section>
+  History:
+</section>
