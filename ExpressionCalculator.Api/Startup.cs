@@ -1,16 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using System.Xml.XPath;
-using ExpressionCalculator.Api.Processors;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ExpressionCalculator.Api
 {
@@ -33,7 +29,7 @@ namespace ExpressionCalculator.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICalculatorProcessor, CalculatorProcessor>();
+            Bootstrapper.Init(services);
 
             services.AddCors(options =>
             {

@@ -1,12 +1,13 @@
 ﻿using System;
-using NCalc;
+using ExpressionCalculator.Api.Models;
+using Expression = NCalc.Expression;
 
 
 namespace ExpressionCalculator.Api.Processors
 {
     public class CalculatorProcessor : ICalculatorProcessor
     {
-        public CalculationResult Calculate(string expression)
+        public ProcessingResult Calculate(string expression)
         {
             try
             {
@@ -14,7 +15,7 @@ namespace ExpressionCalculator.Api.Processors
                 var result = expr.Evaluate();
                 if (!expr.HasErrors())
                 {
-                    return new CalculationResult
+                    return new ProcessingResult
                     {
                         Result = Convert.ToDecimal(result)
                     };
@@ -23,7 +24,7 @@ namespace ExpressionCalculator.Api.Processors
             }   
             catch (Exception e)
             {
-                return new CalculationResult
+                return new ProcessingResult
                 {
                     HasError = true,
                     Error = e.Message
