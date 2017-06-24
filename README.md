@@ -8,3 +8,7 @@ Run the app:
   cd ExpressionCalculator.Client
   npm install
   npm start
+
+Urls:
+Swagger UI - http://localhost:5000/swagger
+Client app: http://localhost:4200
