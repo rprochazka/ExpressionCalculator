@@ -6,13 +6,13 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CalculatorService {
-  private serviceUrl = 'http://localhost:5000/api/v1/calculations'
+  private serviceUrl = 'http://localhost:5000/api/v1/calculations';
 
   constructor(private http: Http) {}
 
   private extractData(res: Response): ICalculateResult {
     const body = res.json();
-    return <ICalculateResult>body || null;
+    return (<ICalculateResult>body) || null;
   }
 
   private handleError(error: Response | any) {
@@ -32,16 +32,18 @@ export class CalculatorService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
     const response = this.http
-      .post(this.serviceUrl, { text: expression }, options)
+      .post(this.serviceUrl, '"' + expression + '"', options)
       .map(this.extractData)
       .catch(this.handleError);
-    return response
+    return response;
   }
 }
 
 export interface ICalculateResult {
-  id: number,
-  expression: string,
-  result: number,
-  dateGenerated: string
+  result: number;
+  isSuccessfull: boolean;
+  calculationError?: {
+    errorText: string,
+    indexes?: Array<number>
+  }
 }
