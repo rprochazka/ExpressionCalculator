@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import {ICalculateResult, ICalculateHistoryResult} from './calculator.model'
 
 @Injectable()
 export class CalculatorService {
@@ -13,6 +14,11 @@ export class CalculatorService {
   private extractData(res: Response): ICalculateResult {
     const body = res.json();
     return (<ICalculateResult>body) || null;
+  }
+
+  private extractHistoryData(res: Response): ICalculateHistoryResult[] {
+    const body = res.json();
+    return (<ICalculateHistoryResult[]>body) || [];
   }
 
   private handleError(error: Response | any) {
@@ -37,13 +43,15 @@ export class CalculatorService {
       .catch(this.handleError);
     return response;
   }
-}
 
-export interface ICalculateResult {
-  result: number;
-  isSuccessfull: boolean;
-  calculationError?: {
-    errorText: string,
-    indexes?: Array<number>
+  showHistory(): Observable<ICalculateHistoryResult[]> {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const response = this.http
+      .get(this.serviceUrl + '/history', options)
+      .map(this.extractData)
+      .catch(this.handleError);
+    return response;
   }
 }
+

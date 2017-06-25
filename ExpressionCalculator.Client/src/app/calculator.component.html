@@ -10,10 +10,18 @@
 
 <section>
   Result:
-    <span *ngIf="successResult">{{successResult.result}}</span>
+    <span *ngIf="calculationResult">{{calculationResult.result}}</span>
     <span *ngIf="errorMessage">{{errorMessage}}</span>
 </section>
 
 <section>
-  History:
+  <button (click)="showHistory()">Show history</button>
+  <ul>
+    <li *ngFor="let history of historyResult">
+      <div>Date: {{history.dateGenerated | date:"yyyy/MM/dd hh:mm:ss"}}</div>
+      <div>Expression: {{history.expression}}</div>
+      <div>Result: {{history.calculationResult.result}}</div>
+      <div *ngIf="history.calculationResult.calculationError">Error: {{history.calculationResult.calculationError.errorText}}</div>
+    </li>
+  </ul>
 </section>

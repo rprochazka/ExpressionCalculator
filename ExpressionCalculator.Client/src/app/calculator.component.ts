@@ -1,4 +1,5 @@
-import { CalculatorService, ICalculateResult } from './calculator.service';
+import { CalculatorService } from './calculator.service';
+import {ICalculateResult, ICalculateHistoryResult} from './calculator.model'
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,16 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./calculator.component.css']
 })
 export class CalculatorComponent implements OnInit {
-  successResult: ICalculateResult;
+  calculationResult: ICalculateResult;
   errorMessage: string;
+  historyResult: ICalculateHistoryResult[];
 
   constructor(private calculatorService: CalculatorService) {}
 
   ngOnInit() {}
 
   calculate(expression: string) {
-    console.log('Calculate triggered with ' + expression);
-    this.successResult = null
+    this.calculationResult = null
     this.errorMessage = null
 
     this.calculatorService
@@ -24,11 +25,20 @@ export class CalculatorComponent implements OnInit {
       .subscribe(
         result => {
           if (result.isSuccessfull) {
-            this.successResult = result
+            this.calculationResult = result
           } else {
             this.errorMessage = result.calculationError.errorText
           }
         },
+        error => (this.errorMessage = <any>error)
+      );
+  }
+
+  showHistory() {
+    this.calculatorService
+      .showHistory()
+      .subscribe(
+        result => this.historyResult = result,
         error => (this.errorMessage = <any>error)
       );
   }
