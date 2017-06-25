@@ -1,27 +1,36 @@
 <h1>Expression calculator</h1>
 
-<section>
-  <label>
-    <span>Expression</span>
-    <input #expression type="text" placeholder="Enter expression">
-    <button (click)="calculate(expression.value)">Calculate</button>
-  </label>
-</section>
+<md-card>
+  <md-card-title>Expression evaluation</md-card-title>
+  <md-card-content>
+    <md-input-container>
+      <input mdInput placeholder="Enter expression" type="text" #expression>
+    </md-input-container>
+    <button md-button (click)="calculate(expression.value)">Calculate</button>
 
-<section>
-  Result:
-    <span *ngIf="calculationResult">{{calculationResult.result}}</span>
-    <span *ngIf="errorMessage">{{errorMessage}}</span>
-</section>
+    <br/>
 
-<section>
-  <button (click)="showHistory()">Show history</button>
-  <ul>
-    <li *ngFor="let history of historyResult">
-      <div>Date: {{history.dateGenerated | date:"yyyy/MM/dd hh:mm:ss"}}</div>
-      <div>Expression: {{history.expression}}</div>
-      <div>Result: {{history.calculationResult.result}}</div>
-      <div *ngIf="history.calculationResult.calculationError">Error: {{history.calculationResult.calculationError.errorText}}</div>
-    </li>
-  </ul>
-</section>
+    <section>
+      Result:
+        <span *ngIf="calculationResult">{{calculationResult.result}}</span>
+        <span *ngIf="errorMessage">{{errorMessage}}</span>
+    </section>
+
+    <br/>
+    <hr/>
+    <br/>
+
+    <section>
+      <md-slide-toggle (change)="onToggleHistory($event)" [(checked)]="showHistoryChecked">Show history</md-slide-toggle>
+      <ul [hidden]="!showHistory">
+        <li *ngFor="let history of historyResult">
+          <div>Date: {{history.dateGenerated | date:"yyyy/MM/dd hh:mm:ss"}}</div>
+          <div>Expression: {{history.expression}}</div>
+          <div>Result: {{history.calculationResult.result}}</div>
+          <div *ngIf="history.calculationResult.calculationError">Error: {{history.calculationResult.calculationError.errorText}}</div>
+        </li>
+      </ul>
+    </section>
+
+  </md-card-content>
+</md-card>

@@ -11,6 +11,7 @@ export class CalculatorComponent implements OnInit {
   calculationResult: ICalculateResult;
   errorMessage: string;
   historyResult: ICalculateHistoryResult[];
+  showHistory: false;
 
   constructor(private calculatorService: CalculatorService) {}
 
@@ -34,12 +35,23 @@ export class CalculatorComponent implements OnInit {
       );
   }
 
-  showHistory() {
+  loadHistory() {
     this.calculatorService
       .showHistory()
       .subscribe(
         result => this.historyResult = result,
         error => (this.errorMessage = <any>error)
       );
+  }
+
+  hideHistory() {
+    this.showHistory = false
+  }
+
+  onToggleHistory(event/*: MdSlideToggleChange*/) {
+    if (event.checked) {
+      this.loadHistory();
+    }
+    this.showHistory = event.checked
   }
 }
